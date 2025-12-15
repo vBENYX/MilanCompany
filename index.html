@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- MODIFICACIÓN CLAVE: Bloqueo de zoom accidental en dispositivos móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Milan COMPANY - Logística Pro Premium</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,15 +13,22 @@
     
     <style>
         /* ======================================================= */
-        /* 1. PALETA PREMIUM Y BASE (Midnight Blue & Antique Gold) */
+        /* 1. PALETA PREMIUM Y BASE (iOS 17/macOS Aesthetics) */
         /* ======================================================= */
         :root {
-            /* Colores de Marca Premium: Azul Marino Profundo y Oro Antiguo */
-            --color-primary-deep: #0D263D; /* Darker Navy/Midnight Blue */
-            --color-accent-gold: #C9A43E; /* Antique Gold (slightly desaturated for metallic feel) */
-            --color-background: #F0F2F5; /* Lighter, more modern background gray */
-            --color-shadow-light: rgba(13, 38, 61, 0.08);
-            --color-shadow-dark: rgba(13, 38, 61, 0.18);
+            /* Colores de Interfaz (Apple style) */
+            --color-background: #F8F8F8; /* Base Light Grey */
+            --color-surface: #FFFFFF;    /* Pure White for Cards */
+            --color-text-primary: #1C1C1E; /* Primary Dark Text */
+            --color-text-secondary: #8E8E93; /* Subtle Secondary Text */
+            
+            /* Colores de Acción */
+            --color-action-blue: #007AFF; /* iOS Primary Action Blue */
+            --color-accent-gold: #C9A43E; /* Gold Accent for Data/Branding */
+            
+            /* Shadows (Extremely subtle, wide spread) */
+            --shadow-subtle-1: rgba(0, 0, 0, 0.04);
+            --shadow-subtle-2: rgba(0, 0, 0, 0.08);
             
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
             -webkit-font-smoothing: antialiased;
@@ -29,9 +37,14 @@
         
         body {
             background: var(--color-background);
+            /* Bloquear la selección de texto en toda la interfaz */
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
-        /* Ocultar scrollbar para un aspecto más limpio */
+        /* Ocultar scrollbar en el contenedor principal */
         .overflow-y-auto {
             -ms-overflow-style: none;
             scrollbar-width: none;
@@ -40,73 +53,68 @@
             display: none;
         }
 
+        /* Permitir selección de texto SÓLO en los inputs para que el usuario pueda editar */
+        input, textarea {
+            user-select: text !important;
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+        }
+
+
         /* ======================================================= */
-        /* 2. CARD & ELEVATION (Enhanced iOS/Neumorphic Blend) */
+        /* 2. HEADER ACRÍLICO (GLASS/BLUR) */
         /* ======================================================= */
 
-        /* Efecto Acrílico Premium (Encabezado Sticky) */
-        .glass-background {
-            background-color: rgba(255, 255, 255, 0.98); 
-            backdrop-filter: blur(25px) saturate(200%); 
-            -webkit-backdrop-filter: blur(25px) saturate(200%);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.08); 
+        /* Efecto Acrílico Fuerte (Encabezado Sticky) - iOS Style */
+        .acrylic-header {
+            background-color: rgba(255, 255, 255, 0.7); 
+            backdrop-filter: blur(30px) saturate(150%); 
+            -webkit-backdrop-filter: blur(30px) saturate(150%);
+            border-bottom: none; 
         }
         
-        /* Efecto Transluz Dinámica (Glass Logo Text) */
-        .glass-logo-text {
-            background-image: linear-gradient(0deg, rgba(255,255,255,0.08) 0%, rgba(0,0,0,0.04) 100%);
-            backdrop-filter: blur(2px) saturate(200%); 
-            -webkit-backdrop-filter: blur(2px) saturate(200%);
-            padding: 4px 8px;
-            border-radius: 10px;
-            display: inline-block;
-            line-height: 1.2;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.1), 0 0 5px var(--color-accent-gold) inset; 
-            margin-top: -4px;
-        }
+        /* ======================================================= */
+        /* 3. CARD & ELEVATION */
+        /* ======================================================= */
 
-
-        /* Sistema de Elevación (Sombras profundas y suaves) */
         .ios-card {
-            background-color: white; 
+            background-color: var(--color-surface); 
+            border-radius: 30px; 
             box-shadow: 
-                0 15px 45px var(--color-shadow-dark),  
-                0 5px 15px var(--color-shadow-light),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.5); 
-            transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1.0);
-            border: none;
+                0 1px 2px var(--shadow-subtle-1), 
+                0 10px 20px var(--shadow-subtle-2); 
+            transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1.0);
+            border: 0.5px solid rgba(0, 0, 0, 0.02); 
         }
         
         .ios-card:hover {
             box-shadow: 
-                0 20px 60px var(--color-shadow-dark),
-                0 7px 20px var(--color-shadow-light);
-            transform: translateY(-4px); 
+                0 2px 4px var(--shadow-subtle-1),
+                0 15px 30px var(--shadow-subtle-2);
+            transform: translateY(-1px);
         }
         
-        /* Contadores minimalistas */
         .premium-counter {
-            text-shadow: 
-                0 0 6px rgba(201, 164, 62, 0.5), 
-                0 0 2px rgba(201, 164, 62, 1); 
-            font-size: 1.8rem; 
+            color: var(--color-text-primary);
+            font-size: 2.2rem; 
             line-height: 1;
+            font-weight: 800; 
+            letter-spacing: -0.05em; 
         }
 
-        /* Contenedor de estadísticas en línea (Estilo de cápsula) */
         .stats-kapsel {
-            background-color: white;
-            border-radius: 9999px; 
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 5px 15px var(--color-shadow-light);
+            background-color: var(--color-surface);
+            border-radius: 24px; 
+            border: 1px solid rgba(0, 0, 0, 0.05); 
             display: flex;
             align-items: center;
         }
         .stats-kapsel-item {
             flex: 1 1 0%;
-            padding: 10px 16px;
+            padding: 18px 16px; 
             text-align: center;
-            border-right: 1px solid rgba(0, 0, 0, 0.05); 
+            border-right: 0.5px solid rgba(0, 0, 0, 0.08); 
         }
         .stats-kapsel-item:last-child {
             border-right: none;
@@ -114,73 +122,79 @@
 
 
         /* ======================================================= */
-        /* 3. BOTONES Y ACCENT (Deep Navy & Gold) */
+        /* 4. BOTONES Y RIPPLE EFFECT (Verificación) */
         /* ======================================================= */
         
-        /* EFECTO DE PULSACIÓN (AJUSTADO PARA NO DISTORSIONAR LA FORMA) */
+        /* Definición de la animación de ripple */
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .ripple {
+            animation: ripple 600ms linear;
+            z-index: 10;
+        }
+        
+        /* EFECTO DE PULSACIÓN GENERAL */
         .tap-effect {
-            transition: transform 0.1s cubic-bezier(0.2, 0, 0, 1);
-            will-change: transform, opacity;
-            user-select: none; 
+            transition: transform 0.1s ease-out, background 0.2s;
+            will-change: transform;
+            /* user-select: none; ESTO YA ESTÁ EN EL BODY PERO SE DEJA COMO SEGURO*/
             position: relative;
             overflow: hidden;
         }
         .tap-effect:active {
-            /* Escala reducida a 0.98 para un efecto sutil y que mantiene la forma */
             transform: scale(0.98); 
-            opacity: 0.95; 
-            filter: brightness(0.95); /* Suaviza el brillo sin cambiar el color radicalmente */
+            opacity: 0.9; 
         }
 
-        /* Botón FAB (+) Rediseñado (Ghost/Deep Navy) */
-        .fab-premium {
-             background: transparent;
-             border: 2px solid var(--color-primary-deep);
-             color: var(--color-primary-deep);
-             transition: all 0.2s ease-in-out;
-             /* Es importante darle un color de fondo para que el tap-effect no lo borre */
-             background-color: white; 
+        /* Botón FAB (+) Primary Blue */
+        .fab-primary-blue {
+             background: var(--color-action-blue); 
+             color: white; 
+             box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3); 
         }
-        /* Efecto de hover: Relleno sutil con acento dorado */
-        .fab-premium:hover {
-            background: rgba(13, 38, 61, 0.05);
-            border-color: var(--color-accent-gold); 
-            color: var(--color-accent-gold);
-        }
-        /* ESTADO ACTIVO DEL FAB (Pulsado): Relleno completo y color blanco */
-        .fab-premium:active {
-            background: var(--color-primary-deep); 
-            color: white;
-            border-color: var(--color-primary-deep);
-            /* Quitamos el scale de aquí, lo maneja tap-effect */
-            /* transform: scale(0.95);  <-- Eliminado */ 
+        .fab-primary-blue:hover {
+            background: #006DDD; 
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
         }
         
-        /* Gradiente Primario (Botones principales - Azul Marino Premium) */
+        /* Gradiente Primario (Botones de formulario) */
         .primary-button-gradient {
-            background: linear-gradient(180deg, var(--color-primary-deep) 0%, #081625 100%); 
+            background: linear-gradient(180deg, #0D263D 0%, #081625 100%); 
             color: white;
-            transition: background 0.3s;
+            border-radius: 16px; 
+            font-weight: 700;
         }
-        .primary-button-gradient:hover {
-            background: linear-gradient(180deg, #081625 0%, #06121f 100%);
+        
+        /* Botones Secundarios (Píldora) */
+        .secondary-button-pill {
+            border: 1px solid rgba(0, 0, 0, 0.1); 
+            background-color: var(--color-surface);
+            color: var(--color-text-primary);
+            font-weight: 600;
+            border-radius: 9999px; 
+            box-shadow: none;
         }
 
-        /* Inputs y Focus (Anillo de foco dorado sólido) */
+        /* Inputs y Focus (Anillo de foco Primary Blue Sutil) */
         input:focus {
             outline: none;
-            box-shadow: 0 0 0 4px rgba(201, 164, 62, 0.4); 
-            border-color: var(--color-accent-gold);
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.2); 
+            border-color: var(--color-action-blue);
         }
 
-        /* Lista de Registros (Hover sutil) */
-        .record-item-premium:hover {
-            background-color: #FAFAFA;
-        }
-
-        /* Progreso de paso (Gold) */
+        /* Progreso de paso */
         #step-progress {
-            background-color: var(--color-accent-gold);
+            background-color: var(--color-action-blue);
+        }
+        
+        /* Micro Bar Fill */
+        .micro-bar-fill {
+            background: linear-gradient(90deg, #C9A43E 0%, #E3C569 100%); 
         }
         
         .app-padding-h {
@@ -189,52 +203,62 @@
         }
         
         /* Definición de animaciones para el sheet */
-        .step-transition {
+        .sheet-transition {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
         }
 
         .sheet-enter {
-            /* Nuevo cubic-bezier para un ligero rebote (más sofisticado) */
             transform: translateY(100%);
-            transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            transition: transform 0.4s cubic-bezier(0.3, 0.7, 0.4, 1); 
         }
         .sheet-active {
             transform: translateY(0);
         }
+
+        /* Estilo para manejar la visibilidad de los pasos para que la transición sea fluida */
+        .step-hidden {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+        }
+        .step-visible {
+            opacity: 1;
+            pointer-events: auto;
+            position: relative;
+        }
+
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center p-0 md:p-6">
+<body class="min-h-screen flex flex-col items-center p-0 md:p-6" style="background: var(--color-background);">
 
-    <!-- Global Loading Overlay (Hidden by default) -->
-    <div id="global-loading-overlay" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-50 hidden flex flex-col items-center justify-center p-8 transition-opacity duration-300 opacity-0">
-        <div class="spinner"></div>
+    <!-- Global Loading Overlay -->
+    <div id="global-loading-overlay" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-md z-50 hidden flex flex-col items-center justify-center p-8 transition-opacity duration-300 opacity-0">
+        <div class="spinner border-t-4 border-white h-12 w-12 rounded-full animate-spin"></div>
         <p class="text-white text-lg font-semibold mt-4">Procesando...</p>
     </div>
 
     <!-- Main App Container (Mobile View - Card style) -->
-    <div id="app-container" class="w-full max-w-md bg-white min-h-screen md:min-h-[90vh] md:rounded-[40px] ios-card overflow-y-auto">
+    <div id="app-container" class="w-full max-w-md bg-white min-h-screen md:min-h-[90vh] md:rounded-[40px] ios-card overflow-y-auto" style="border-radius: 40px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
         
-        <!-- Header (Liquid Glass - Sticky) -->
-        <header class="sticky top-0 z-20 glass-background">
+        <!-- Header (Acrílico - Sticky) -->
+        <header class="sticky top-0 z-20 acrylic-header">
             <div class="app-padding-h pt-12 pb-4">
                 <div class="flex justify-between items-center">
-                    <h1 class="text-5xl font-extrabold tracking-tight text-gray-900">
+                    <h1 class="text-5xl font-extrabold tracking-tight" style="color: var(--color-text-primary);">
                         Logística
                     </h1>
-                    <!-- FAB/Add Button (Rediseñado: Ghost/Deep Navy) -->
-                    <button id="add-record-fab" class="w-12 h-12 rounded-full flex items-center justify-center tap-effect fab-premium">
-                        <!-- Icono Plus más simple y audaz -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <!-- FAB/Add Button (Primary Blue) -->
+                    <button id="add-record-fab" class="w-14 h-14 rounded-full flex items-center justify-center tap-effect fab-primary-blue shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                         </svg>
                     </button>
                 </div>
-                <!-- Logo con Efecto Transluz Dinámica (Gold Accent) -->
-                <p class="text-base text-gray-700 mt-1 font-medium tracking-wide">
-                    <span class="glass-logo-text">
-                        Milan <span class="font-bold text-accent-gold">COMPANY</span> Operaciones
-                    </span>
+                <!-- Subtítulo de Marca -->
+                <p class="text-base mt-1 font-medium tracking-wide" style="color: var(--color-text-secondary);">
+                    Milan <span class="font-bold" style="color: var(--color-accent-gold);">COMPANY</span> Operaciones
                 </p>
             </div>
         </header>
@@ -247,27 +271,27 @@
                 <div class="stats-kapsel">
                     <!-- Item 1: Registros -->
                     <div class="stats-kapsel-item tap-effect">
-                        <span id="stat-records" class="font-extrabold text-accent-gold premium-counter transition-colors duration-500 block">0</span>
-                        <span class="text-xs font-semibold text-gray-600 mt-0.5 tracking-wider uppercase leading-snug text-center">Registros</span>
+                        <span id="stat-records" class="font-extrabold premium-counter transition-colors duration-500 block">0</span>
+                        <span class="text-xs font-semibold mt-0.5 tracking-wider uppercase leading-snug text-center" style="color: var(--color-text-secondary);">Registros</span>
                     </div>
                     <!-- Item 2: Tonelaje -->
                     <div class="stats-kapsel-item tap-effect">
-                        <span id="stat-tonnage" class="font-extrabold text-accent-gold premium-counter transition-colors duration-500 block">0.0</span>
-                        <span class="text-xs font-semibold text-gray-600 mt-0.5 tracking-wider uppercase leading-snug text-center">Tonelaje (t)</span>
+                        <span id="stat-tonnage" class="font-extrabold premium-counter transition-colors duration-500 block" style="color: var(--color-accent-gold);">0.0</span>
+                        <span class="text-xs font-semibold mt-0.5 tracking-wider uppercase leading-snug text-center" style="color: var(--color-text-secondary);">Tonelaje (t)</span>
                     </div>
                     <!-- Item 3: Destinos -->
                     <div class="stats-kapsel-item tap-effect">
-                        <span id="stat-destinations" class="font-extrabold text-accent-gold premium-counter transition-colors duration-500 block">0</span>
-                        <span class="text-xs font-semibold text-gray-600 mt-0.5 tracking-wider uppercase leading-snug text-center">Destinos</span>
+                        <span id="stat-destinations" class="font-extrabold premium-counter transition-colors duration-500 block">0</span>
+                        <span class="text-xs font-semibold mt-0.5 tracking-wider uppercase leading-snug text-center" style="color: var(--color-text-secondary);">Destinos</span>
                     </div>
                 </div>
             </section>
             
             <!-- Data Visualization (ACRYLIC Widget Style) -->
             <section class="mt-10">
-                <h2 class="text-xl font-bold text-gray-800 mb-4 ml-1 tracking-tight">Distribución por Destino</h2>
+                <h2 class="text-xl font-bold mb-4 ml-1 tracking-tight" style="color: var(--color-text-primary);">Distribución por Destino</h2>
                 
-                <div class="ios-card bg-white rounded-3xl p-6 border divide-y divide-gray-100 dark-ripple">
+                <div class="ios-card rounded-[30px] p-6 divide-y divide-gray-100">
                     <!-- List Container for Micro-Bars -->
                     <div id="tonnage-distribution-list" class="space-y-4" style="max-height: 400px;">
                         <!-- Micro-bars will be injected here -->
@@ -277,9 +301,9 @@
                         Añade un registro para ver la distribución por destino.
                     </p>
 
-                    <!-- Expand/Collapse Button (Soft, subtle button) -->
+                    <!-- Expand/Collapse Button -->
                     <div id="expand-btn-container" class="pt-4 hidden">
-                        <button id="toggle-list-btn" class="w-full py-2 text-base font-semibold text-accent-gold hover:opacity-80 transition-colors tap-effect dark-ripple rounded-lg">
+                        <button id="toggle-list-btn" class="w-full py-2 text-base font-semibold transition-colors tap-effect rounded-lg" style="color: var(--color-action-blue);">
                             Ver todos...
                         </button>
                     </div>
@@ -287,15 +311,17 @@
             </section>
 
 
-            <!-- Actions (Button Group - Secondary Styled) -->
-            <section class="mt-10 flex gap-4">
-                <button id="export-pdf-btn" class="flex-1 ios-card tap-effect dark-ripple bg-white text-gray-700 py-4 rounded-3xl text-base font-bold border border-gray-200 hover:bg-gray-50 transition-all shadow-lg">
+            <!-- Actions (Pill Button Group) -->
+            <section class="mt-10 flex gap-3">
+                <!-- Export Button (Pill Shape) -->
+                <button id="export-pdf-btn" class="flex-1 tap-effect secondary-button-pill py-3 rounded-xl text-base font-bold transition-all">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1 -mt-0.5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
                     </svg>
                     Exportar
                 </button>
-                <button id="clear-records-btn" class="flex-1 ios-card tap-effect dark-ripple bg-white text-red-500 py-4 rounded-3xl text-base font-bold border border-gray-200 hover:bg-red-50 transition-all shadow-lg">
+                <!-- Clear Button (Pill Shape + Red Text) -->
+                <button id="clear-records-btn" class="flex-1 tap-effect secondary-button-pill py-3 rounded-xl text-base font-bold transition-all" style="color: #EF4444;">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1 -mt-0.5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
                     </svg>
@@ -305,19 +331,19 @@
 
             <!-- Records List (Elevated Card Style) -->
             <section class="mt-10 pb-12">
-                <h2 class="text-xl font-bold text-gray-800 mb-3 ml-1 tracking-tight">Historial de Operaciones</h2>
+                <h2 class="text-xl font-bold mb-3 ml-1 tracking-tight" style="color: var(--color-text-primary);">Historial de Operaciones</h2>
                 
-                <div class="ios-card bg-white rounded-3xl overflow-hidden divide-y divide-gray-100">
-                    <div id="records-list-container" class="pb-2">
+                <div class="ios-card bg-white rounded-3xl overflow-hidden" style="border-radius: 25px;">
+                    <div id="records-list-container" class="divide-y divide-gray-100">
                         <!-- Records will be injected here as list items -->
                     </div>
                     
                     <div id="empty-state" class="p-10 text-center text-gray-400 text-sm hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-2 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-2" style="color: var(--color-text-secondary); opacity: 0.5;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                         </svg>
-                        <p class="font-medium text-gray-500">Aún no hay operaciones registradas.</p>
-                        <p class="text-xs mt-1">Toca el botón '+' para comenzar.</p>
+                        <p class="font-medium" style="color: var(--color-text-secondary);">Aún no hay operaciones registradas.</p>
+                        <p class="text-xs mt-1 text-gray-400">Toca el botón '+' para comenzar.</p>
                     </div>
                 </div>
             </section>
@@ -327,21 +353,20 @@
     </div>
     
     <!-- Toast Notification Container -->
-    <div id="toast-container" class="fixed top-20 md:top-6 left-1/2 -translate-x-1/2 z-50 w-full flex justify-center">
+    <div id="toast-container" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full flex justify-center p-4">
         <!-- Toasts appear here -->
     </div>
     
     <!-- Confirmation Dialog -->
     <div id="confirmation-dialog" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-md z-40 hidden flex items-center justify-center p-8">
-        <div class="bg-white p-7 rounded-3xl w-full max-w-xs text-center ios-card confirmation-dialog scale-90 opacity-0">
+        <div class="bg-white p-7 rounded-3xl w-full max-w-xs text-center ios-card confirmation-dialog scale-90 opacity-0 transition-all duration-300">
             <h3 class="text-xl font-bold text-gray-900 mb-2">Confirmar Eliminación</h3>
             <p class="text-sm text-gray-600 mb-6 font-medium">¿Estás seguro de que quieres eliminar <span id="confirm-count" class="font-bold text-red-500">todos</span> los registros? Esta acción es irreversible.</p>
             <div class="flex flex-col gap-2 border-t pt-4">
-                <!-- Destructive action button (Soft Red Style) -->
                 <button id="confirm-delete" class="w-full py-3.5 rounded-xl text-base font-bold text-white bg-red-600 hover:bg-red-700 tap-effect transition-all shadow-md">
                     Eliminar Todo
                 </button>
-                <button id="confirm-cancel" class="w-full py-3.5 rounded-xl text-base font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 tap-effect dark-ripple transition-all">
+                <button id="confirm-cancel" class="w-full py-3.5 rounded-xl text-base font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 tap-effect transition-all">
                     Cancelar
                 </button>
             </div>
@@ -349,32 +374,33 @@
     </div>
 
 
-    <!-- Sheet UI Modal for New Operation (Premium Glass Sheet) -->
+    <!-- Sheet UI Modal for New Operation (Premium Acrylic Sheet) -->
     <div id="sheet-overlay" class="fixed inset-0 z-30 hidden items-end justify-center">
-        <!-- Sheet Container (for the slide-up animation, with glass effect) -->
-        <div id="sheet-card" class="glass-background w-full max-w-md md:rounded-t-3xl rounded-t-3xl ios-card shadow-2xl p-6 sheet-enter">
+        <!-- Sheet Container (Acrylic background for the slide-up animation) -->
+        <div id="sheet-card" class="acrylic-header w-full max-w-md md:rounded-t-3xl rounded-t-[35px] shadow-2xl p-6 sheet-enter">
             
             <!-- Handle indicator -->
             <div class="w-16 h-1.5 bg-gray-300 rounded-full mx-auto mb-6"></div>
             
             <h2 class="text-2xl font-bold text-gray-900 mb-4" id="sheet-title">Nueva Operación</h2>
 
-            <!-- Step Indicator (Gold Accent, más grueso) -->
+            <!-- Step Indicator (Primary Blue Accent) -->
             <div class="flex justify-between items-center mb-10">
                 <div class="flex-1 h-1.5 rounded-full bg-gray-300">
                     <div id="step-progress" class="h-1.5 rounded-full transition-all duration-300 ease-in-out" style="width: 33.3%;"></div>
                 </div>
-                <div class="ml-4 text-sm font-bold text-gray-600" id="step-counter">1/3</div>
+                <div class="ml-4 text-sm font-bold" style="color: var(--color-action-blue);" id="step-counter">1/3</div>
             </div>
 
             <form id="operation-form">
-                <div id="steps-container" class="relative">
+                <!-- Wrapper for steps to allow relative/absolute positioning -->
+                <div id="steps-container" class="relative overflow-hidden">
                     
                     <!-- Step 1: Lugar de Carga -->
-                    <div id="step-1" class="step-transition opacity-100 pointer-events-auto translate-x-0">
-                        <label for="location" class="block text-sm font-semibold text-gray-700 mb-2">Paso 1: Lugar de Carga (Origen)</label>
+                    <div id="step-1" class="sheet-transition step-visible w-full">
+                        <label for="location" class="block text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Paso 1: Lugar de Carga (Origen)</label>
                         <input type="text" id="location" name="location" placeholder="Ej: Puerto de Valparaíso" required
-                               class="w-full px-4 py-3.5 border border-gray-200 rounded-xl ios-card transition-all text-base font-medium">
+                               class="w-full px-4 py-3.5 border border-gray-200 rounded-xl transition-all text-base font-medium" style="color: var(--color-text-primary);">
                         <button type="button" data-next-step="2" class="mt-10 w-full py-4 primary-button-gradient rounded-xl font-bold tap-effect next-step-btn"
                              style="box-shadow: 0 5px 15px rgba(13, 38, 61, 0.4);">
                             Siguiente (Tonelaje)
@@ -382,13 +408,14 @@
                     </div>
                     
                     <!-- Step 2: Tonelaje -->
-                    <div id="step-2" class="step-transition opacity-0 pointer-events-none translate-x-[100%]">
-                        <label for="tonnage" class="block text-sm font-semibold text-gray-700 mb-2">Paso 2: Tonelaje (t)</label>
-                        <input type="number" id="tonnage" name="tonnage" placeholder="Ej: 25.5" step="0.1" required
-                               class="w-full px-4 py-3.5 border border-gray-200 rounded-xl ios-card transition-all text-base font-medium">
+                    <div id="step-2" class="sheet-transition step-hidden w-full">
+                        <label for="tonnage" class="block text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Paso 2: Tonelaje (t)</label>
+                        <!-- Se usa text y validación JS para mejor compatibilidad móvil con teclado -->
+                        <input type="text" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" id="tonnage" name="tonnage" placeholder="Ej: 25.5" required
+                               class="w-full px-4 py-3.5 border border-gray-200 rounded-xl transition-all text-base font-medium" style="color: var(--color-text-primary);">
                         
                         <div class="flex gap-3 mt-10">
-                            <button type="button" data-prev-step="1" class="flex-1 py-4 text-base font-bold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 tap-effect dark-ripple prev-step-btn shadow-md">
+                            <button type="button" data-prev-step="1" class="flex-1 py-4 text-base font-bold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 tap-effect prev-step-btn shadow-md">
                                 Anterior
                             </button>
                             <button type="button" data-next-step="3" class="flex-1 py-4 primary-button-gradient rounded-xl font-bold tap-effect next-step-btn"
@@ -399,17 +426,18 @@
                     </div>
 
                     <!-- Step 3: Destino de Descarga -->
-                    <div id="step-3" class="step-transition opacity-0 pointer-events-none translate-x-[100%]">
-                        <label for="destination" class="block text-sm font-semibold text-gray-700 mb-2">Paso 3: Destino de Descarga</label>
+                    <div id="step-3" class="sheet-transition step-hidden w-full">
+                        <label for="destination" class="block text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Paso 3: Destino de Descarga</label>
                         <input type="text" id="destination" name="destination" placeholder="Ej: Centro de Distribución Santiago" required
-                               class="w-full px-4 py-3.5 border border-gray-200 rounded-xl ios-card transition-all text-base font-medium">
+                               class="w-full px-4 py-3.5 border border-gray-200 rounded-xl transition-all text-base font-medium" style="color: var(--color-text-primary);">
 
                         <div class="flex gap-3 mt-10">
-                            <button type="button" data-prev-step="2" class="flex-1 py-4 text-base font-bold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 tap-effect dark-ripple prev-step-btn shadow-md">
+                            <button type="button" data-prev-step="2" class="flex-1 py-4 text-base font-bold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 tap-effect prev-step-btn shadow-md">
                                 Anterior
                             </button>
+                            <!-- Botón Final de Registro (iOS Green Button) -->
                             <button type="submit" id="submit-operation-btn" class="flex-1 py-4 text-white rounded-xl font-bold tap-effect"
-                                style="background: linear-gradient(180deg, #10B981 0%, #059669 100%); box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);">
+                                style="background: linear-gradient(180deg, #34C759 0%, #28B44A 100%); box-shadow: 0 5px 15px rgba(52, 199, 89, 0.4);">
                                 Registrar Operación
                             </button>
                         </div>
@@ -417,8 +445,8 @@
                 </div>
             </form>
             
-            <!-- Close Button (Premium look) -->
-            <button id="close-sheet-btn" class="absolute top-4 right-4 text-gray-700 hover:text-gray-900 tap-effect dark-ripple bg-gray-100 p-2.5 rounded-full transition-all z-40 shadow-lg">
+            <!-- Close Button (Pill style) -->
+            <button id="close-sheet-btn" class="absolute top-4 right-4 tap-effect bg-gray-100 p-2.5 rounded-full transition-all z-40 shadow-sm hover:bg-gray-200" style="color: var(--color-text-primary);">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -430,12 +458,13 @@
     <script>
         // --- CONSTANTES GLOBALES ---
         const LOCAL_STORAGE_KEY = 'milan_logistics_records';
-        const MICRO_BAR_COLOR = '#0D263D'; // Deep Navy
         const MAX_INITIAL_ITEMS = 5; 
         const TOTAL_STEPS = 3;
+        const LOCALE = 'es-CL'; // Usar un locale específico para formato de fechas
         
         let records = [];
         let isListExpanded = false; 
+        let currentStep = 1;
 
         
         // --- REFERENCIAS DOM ---
@@ -445,7 +474,7 @@
             sheetCard: document.getElementById('sheet-card'),
             closeSheetBtn: document.getElementById('close-sheet-btn'),
             form: document.getElementById('operation-form'),
-            submitBtn: document.getElementById('submit-operation-btn'), // Nuevo: Referencia al botón de envío
+            submitBtn: document.getElementById('submit-operation-btn'),
             recordsListContainer: document.getElementById('records-list-container'),
             emptyState: document.getElementById('empty-state'),
             clearBtn: document.getElementById('clear-records-btn'),
@@ -464,9 +493,8 @@
             globalLoading: document.getElementById('global-loading-overlay'),
             stepProgress: document.getElementById('step-progress'),
             stepCounter: document.getElementById('step-counter'),
+            stepsContainer: document.getElementById('steps-container'),
         };
-
-        let currentStep = 1;
 
         
         // --- FUNCIONES DE UX Y ANIMACIÓN ---
@@ -489,12 +517,12 @@
             };
             
             const toast = document.createElement('div');
-            // Estilo Premium para Toast
-            toast.className = `toast ios-card bg-white p-3 flex items-center space-x-3 shadow-2xl transition-all duration-300 ease-out transform -translate-y-full opacity-0 max-w-sm w-full rounded-2xl`;
+            // Estilo Premium para Toast: Sombra grande, muy redondeado
+            toast.className = `toast bg-white p-3 flex items-center space-x-3 shadow-2xl transition-all duration-300 ease-out transform -translate-y-full opacity-0 max-w-sm w-full rounded-2xl`;
             
             toast.innerHTML = `
-                
-                <span class="text-sm font-medium text-gray-800"></span>
+                ${icons[type]}
+                <span class="text-sm font-medium" style="color: var(--color-text-primary);">${message}</span>
             `;
 
             elements.toastContainer.appendChild(toast);
@@ -516,7 +544,8 @@
         const animateCounter = (element, startValue, targetValue) => {
             const duration = 700;
             const startTime = performance.now();
-            const isFloat = targetValue % 1 !== 0 || startValue % 1 !== 0;
+            // Determinar si es flotante basado en el valor objetivo
+            const isFloat = targetValue % 1 !== 0 || String(targetValue).includes('.'); 
 
             const update = (currentTime) => {
                 const elapsed = currentTime - startTime;
@@ -534,11 +563,8 @@
                 if (progress < 1) {
                     requestAnimationFrame(update);
                 } else {
-                    if (isFloat) {
-                        element.textContent = targetValue.toFixed(1);
-                    } else {
-                        element.textContent = targetValue;
-                    }
+                    // Asegurar que el valor final es exacto
+                    element.textContent = isFloat ? targetValue.toFixed(1) : String(Math.round(targetValue));
                 }
             };
 
@@ -555,6 +581,7 @@
             const rect = button.getBoundingClientRect();
             let x, y;
 
+            // Determinar la posición del tap/click
             if (event.touches && event.touches.length > 0) {
                 x = event.touches[0].clientX - rect.left;
                 y = event.touches[0].clientY - rect.top;
@@ -568,13 +595,34 @@
             const diameter = Math.max(button.clientWidth, button.clientHeight);
             const radius = diameter / 2;
 
-            circle.style.width = circle.style.height = `px`;
-            circle.style.left = `px`;
-            circle.style.top = `px`;
-            circle.classList.add('ripple');
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${x - radius}px`;
+            circle.style.top = `${y - radius}px`;
+            
+            // Usar la clase 'ripple' definida en CSS para la animación
+            circle.classList.add('ripple', 'absolute', 'rounded-full', 'pointer-events-none');
+            circle.style.background = 'rgba(255, 255, 255, 0.4)'; 
+            if (button.classList.contains('secondary-button-pill') || button.classList.contains('bg-gray-100')) {
+                 circle.style.background = 'rgba(0, 0, 0, 0.08)'; 
+            }
             
             button.appendChild(circle);
+            
+            circle.addEventListener('animationend', () => {
+                circle.remove();
+            });
         };
+        
+        // --- UTILIDAD DE FECHA ---
+        const formatDate = (dateString) => {
+            try {
+                // dateString es 'YYYY-MM-DD'
+                const date = new Date(dateString + 'T00:00:00'); // Añadir T00:00:00 para evitar problemas de zona horaria
+                return date.toLocaleDateString(LOCALE, { year: 'numeric', month: 'short', day: 'numeric' });
+            } catch (e) {
+                return dateString;
+            }
+        }
 
         // --- LÓGICA DE VISUALIZACIÓN (MICRO-BAR LIST COMPACTA) ---
 
@@ -618,32 +666,32 @@
                     listItem.classList.add('pt-4'); 
                 }
                 
-                // Animación de aparición escalonada
                 listItem.className += ' flex flex-col space-y-1 transition-opacity duration-500 opacity-0 transform translate-y-2';
 
                 listItem.innerHTML = `
                     <div class="flex justify-between items-center">
-                        <span class="text-sm font-medium text-gray-700 truncate"></span>
-                        <span class="text-xs font-bold text-accent-gold"> t</span>
+                        <span class="text-sm font-medium truncate" style="color: var(--color-text-primary);">${item.destination}</span>
+                        <span class="text-xs font-bold" style="color: var(--color-accent-gold);">${item.tonnage.toFixed(1)} t</span>
                     </div>
-                    <!-- Micro-Bar con gradiente Primary Deep -->
-                    <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden shadow-inner shadow-gray-300/50">
-                        <div class="h-3 rounded-full primary-button-gradient" 
-                            style="width: %; transition: width 0.8s cubic-bezier(0.2, 0.8, 0.5, 1.2); opacity: 1;">
+                    <!-- Micro-Bar con gradiente Gold Accent -->
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden shadow-inner shadow-gray-300/50">
+                        <div class="h-2.5 rounded-full micro-bar-fill" 
+                            style="width: ${percentage}%; transition: width 0.8s cubic-bezier(0.2, 0.8, 0.5, 1.2); opacity: 1;">
                         </div>
                     </div>
                 `;
                 listEl.appendChild(listItem);
                 
+                // Animación de aparición escalonada
                 setTimeout(() => listItem.classList.remove('opacity-0', 'translate-y-2'), 50 * (index + 1)); 
             });
 
             if (dataPoints.length > MAX_INITIAL_ITEMS) {
                 elements.expandBtnContainer.classList.remove('hidden');
-                elements.toggleListBtn.textContent = isListExpanded ? 'Mostrar menos...' : `Ver todos ( destinos)...`;
+                elements.toggleListBtn.textContent = isListExpanded ? 'Mostrar menos' : `Ver todos (${dataPoints.length} destinos)`;
                 
-                // Ajuste dinámico de altura para la animación
-                listEl.style.maxHeight = isListExpanded ? `px` : `px`; 
+                // Límite de altura para la vista compacta
+                listEl.style.maxHeight = isListExpanded ? 'none' : `${MAX_INITIAL_ITEMS * 65}px`; 
 
             } else {
                 elements.expandBtnContainer.classList.add('hidden');
@@ -699,8 +747,6 @@
 
         const renderRecords = () => {
             const container = elements.recordsListContainer;
-            // Guardamos el contenido existente para aplicar animaciones solo a los nuevos
-            const existingContent = container.innerHTML; 
             container.innerHTML = '';
 
             if (records.length === 0) {
@@ -712,16 +758,18 @@
 
             records.forEach((record, index) => {
                 const item = document.createElement('div');
-                // Inicializamos con animación de entrada (opacity 0, translate Y)
-                item.className = 'record-item-premium flex justify-between items-center px-6 py-4 transition-all duration-700 opacity-0 translate-y-2 tap-effect dark-ripple'; 
+                item.className = 'record-item-premium flex justify-between items-center px-6 py-4 transition-all duration-700 opacity-0 translate-y-2 tap-effect'; 
                 
+                // Formato de fecha mejorado para la vista
+                const formattedDate = formatDate(record.date);
+
                 item.innerHTML = `
                     <div class="flex-1 min-w-0">
-                        <p class="text-base font-bold text-gray-900 truncate tracking-tight"></p>
-                        <p class="text-xs text-gray-500 mt-0.5 truncate font-medium">Desde:  | </p>
+                        <p class="text-base font-bold truncate tracking-tight" style="color: var(--color-text-primary);">${record.destination}</p>
+                        <p class="text-xs mt-0.5 truncate font-medium" style="color: var(--color-text-secondary);">Desde: ${record.location} | ${formattedDate}</p>
                     </div>
                     <div class="ml-4 flex-shrink-0 text-right">
-                        <span class="text-xl font-extrabold text-accent-gold tracking-tight"></span>
+                        <span class="text-xl font-extrabold" style="color: var(--color-accent-gold);">${record.tonnage}</span>
                         <span class="text-xs font-semibold text-gray-500">t</span>
                     </div>
                 `;
@@ -735,15 +783,15 @@
         const addRecord = (newRecord) => {
             records.unshift(newRecord); 
             saveRecords();
-            // Re-renderizamos para que el nuevo elemento aparezca con la animación
             renderRecords(); 
             updateStats();
             renderCharts(); 
             showToast('Operación registrada con éxito.', 'success');
         };
-
-        // --- LÓGICA DE FORMULARIO (SHEET UI) ---
-
+        
+        // --- LÓGICA DE PASOS DE FORMULARIO (VERIFICADA) ---
+        const steps = Array.from(document.querySelectorAll('#steps-container > div'));
+        
         const toggleSheet = (show = true) => {
             if (show) {
                 elements.sheetOverlay.classList.remove('hidden');
@@ -753,6 +801,7 @@
                 elements.sheetCard.classList.remove('sheet-enter');
                 elements.sheetCard.classList.add('sheet-active');
 
+                // Asegurar que solo el paso 1 es visible al abrir
                 goToStep(1, 0); 
                 elements.form.reset(); 
 
@@ -763,60 +812,71 @@
                 setTimeout(() => {
                     elements.sheetOverlay.classList.add('hidden');
                     elements.sheetCard.classList.remove('sheet-enter');
-                }, 450); 
+                }, 400); 
             }
         };
 
-        const goToStep = (stepNumber, direction) => {
-            const stepsContainer = document.getElementById('steps-container');
-            if (!stepsContainer) return;
-            
-            const steps = Array.from(stepsContainer.children).filter(el => el.classList.contains('step-transition'));
-            
+        const goToStep = (stepNumber, direction = 1) => {
             steps.forEach(stepEl => {
                 const stepIndex = parseInt(stepEl.id.replace('step-', ''));
                 
-                stepEl.classList.remove('opacity-100', 'pointer-events-auto', 'translate-x-0', 'translate-x-[-100%]', 'translate-x-[100%]');
-                
+                // 1. Ocultar todos los pasos primero para controlar las clases
+                stepEl.classList.add('step-hidden');
+                stepEl.classList.remove('step-visible', 'translate-x-0', 'translate-x-[100%]', 'translate-x-[-100%]');
+
                 if (stepIndex === stepNumber) {
-                    stepEl.classList.add('opacity-100', 'pointer-events-auto', 'translate-x-0', 'relative');
-                    stepEl.style.position = 'relative';
-                } else if (stepIndex < stepNumber) {
-                    stepEl.classList.add('opacity-0', 'pointer-events-none', 'translate-x-[-100%]', 'absolute');
-                    stepEl.style.position = 'absolute'; 
-                } else {
-                    stepEl.classList.add('opacity-0', 'pointer-events-none', 'translate-x-[100%]', 'absolute');
-                    stepEl.style.position = 'absolute'; 
+                    // 2. Mostrar el paso actual con animación de slide
+                    stepEl.classList.add('step-visible');
+                    // Usar translate-x para animar la entrada (desde la derecha si avanzamos, desde la izquierda si retrocedemos)
+                    const enterClass = direction > 0 ? 'translate-x-[100%]' : 'translate-x-[-100%]';
+                    
+                    // Trigger reflow antes de la transición
+                    stepEl.offsetHeight; 
+                    
+                    // Aplicar la posición inicial fuera de la vista
+                    stepEl.classList.add(enterClass); 
+                    
+                    // 3. Mover a la posición final (0)
+                    requestAnimationFrame(() => {
+                         // Quitar la posición inicial y transicionar a 0
+                        stepEl.classList.remove(enterClass);
+                        stepEl.classList.add('translate-x-0');
+                    });
+
+                } else if (stepIndex === currentStep) {
+                    // 4. Ocultar el paso anterior con animación de slide
+                    // Mover fuera de la vista (hacia la izquierda si avanzamos, hacia la derecha si retrocedemos)
+                    const exitClass = direction > 0 ? 'translate-x-[-100%]' : 'translate-x-[100%]';
+                    stepEl.classList.add(exitClass);
                 }
             });
 
             currentStep = stepNumber;
             
-            elements.stepCounter.textContent = `/`;
+            elements.stepCounter.textContent = `${currentStep}/${TOTAL_STEPS}`;
             elements.stepProgress.style.width = `${(currentStep / TOTAL_STEPS) * 100}%`;
 
+            // Foco en el input después de la transición
             setTimeout(() => {
-                const input = document.getElementById(`step-`).querySelector('input');
+                const stepEl = document.getElementById(`step-${currentStep}`);
+                const input = stepEl ? stepEl.querySelector('input') : null;
                 if (input) input.focus();
-            }, 500);
+            }, 400); 
         };
-
-
+        
         // --- MANEJADORES DE EVENTOS ---
 
-        // Aplicar Ripple Effect (Touch y Mouse)
+        // Aplicar Ripple Effect (Touch y Mouse) a todos los elementos con 'tap-effect'
         document.querySelectorAll('.tap-effect').forEach(button => {
-            // No agregamos el listener de ripple al FAB, ya que tiene un manejo especial de estilo :active
-            if (button.id !== 'add-record-fab') { 
-                button.addEventListener('mousedown', createRipple);
-                button.addEventListener('touchstart', (e) => {
-                    createRipple(e); 
-                }, { passive: true }); 
-            }
+            button.addEventListener('mousedown', createRipple);
+            button.addEventListener('touchstart', (e) => {
+                // Prevenir el comportamiento por defecto en touch para evitar el 'ghost click' si es necesario
+                // Pero permitir la propagación para el click
+                createRipple(e); 
+            }, { passive: true }); 
         });
 
-        // 1. Abrir Sheet (Solución para el FAB: usar click y touchstart directamente)
-        // Usamos la misma lógica para click y touchstart para asegurar consistencia
+        // 1. Abrir Sheet
         const handleFabOpen = (e) => {
              e.preventDefault(); 
              toggleSheet(true);
@@ -830,12 +890,27 @@
         // 3. Toggle de la lista de distribución
         elements.toggleListBtn.addEventListener('click', toggleList);
         
-        // 4. Navegación del formulario (Siguiente/Anterior)
+        // 4. Validación de tonelaje en tiempo real
+        const tonnageInput = document.getElementById('tonnage');
+        tonnageInput.addEventListener('input', (e) => {
+            let value = e.target.value;
+            // Permitir solo números y un punto decimal
+            value = value.replace(/[^\d.]/g, ''); 
+            // Asegurar que solo haya un punto decimal
+            const parts = value.split('.');
+            if (parts.length > 2) {
+                value = parts[0] + '.' + parts.slice(1).join('');
+            }
+            e.target.value = value;
+        });
+
+        // 5. Navegación del formulario (Siguiente/Anterior)
         document.querySelectorAll('#operation-form button[data-next-step], #operation-form button[data-prev-step]').forEach(button => {
             button.addEventListener('click', (e) => {
                 const btn = e.target.closest('button');
                 const isNext = btn.dataset.nextStep;
-                const currentInput = document.getElementById(`step-`).querySelector('input');
+                const currentStepEl = document.getElementById(`step-${currentStep}`);
+                const currentInput = currentStepEl ? currentStepEl.querySelector('input') : null;
 
                 let nextStep = 0;
                 let direction = 0;
@@ -852,7 +927,7 @@
                     }
                     
                     if (currentStep === 2) {
-                        const tonnageValue = parseFloat(currentInput.value);
+                        const tonnageValue = parseFloat(currentInput.value.replace(',', '.')); // Soporte para coma/punto
                         if (isNaN(tonnageValue) || tonnageValue <= 0) {
                             currentInput.focus();
                             showToast('El tonelaje debe ser un número positivo.', 'error');
@@ -870,7 +945,7 @@
             });
         });
 
-        // 5. Envío final del formulario
+        // 6. Envío final del formulario
         elements.form.addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -881,17 +956,17 @@
                 return;
             }
             
-            // Deshabilitar botón para evitar doble envío
             elements.submitBtn.disabled = true;
             elements.submitBtn.textContent = 'Registrando...';
             
             toggleLoading(true); 
             
-            // Introducimos un pequeño retraso para la sensación de procesamiento
             setTimeout(() => { 
                 const formData = new FormData(elements.form);
                 const location = formData.get('location').trim();
-                const tonnage = parseFloat(formData.get('tonnage'));
+                // Normalizar el tonelaje (reemplazar coma por punto)
+                const tonnageString = formData.get('tonnage').replace(',', '.');
+                const tonnage = parseFloat(tonnageString);
                 const destination = formData.get('destination').trim();
 
                 if (location && !isNaN(tonnage) && tonnage > 0 && destination) {
@@ -900,7 +975,8 @@
                         location,
                         tonnage: tonnage.toFixed(1), 
                         destination,
-                        date: new Date().toISOString().substring(0, 10)
+                        // Almacenar fecha en formato ISO para consistencia
+                        date: new Date().toISOString().substring(0, 10) 
                     };
                     
                     addRecord(newRecord);
@@ -910,25 +986,24 @@
                     showToast('Error de datos. Recarga e intenta de nuevo.', 'error');
                 }
                 
-                // Re-habilitar botón y ocultar loading
                 elements.submitBtn.disabled = false;
                 elements.submitBtn.textContent = 'Registrar Operación';
                 toggleLoading(false); 
             }, 1000); 
         });
 
-        // 6. Limpiar Registros (Muestra Confirmación)
+        // 7. Limpiar Registros (Muestra Confirmación)
         elements.clearBtn.addEventListener('click', () => {
             if (records.length === 0) {
                 showToast('No hay registros para limpiar.', 'info');
                 return;
             }
-            document.getElementById('confirm-count').textContent = ` (t)`;
+            document.getElementById('confirm-count').textContent = `${records.length} (${elements.statTonnage.textContent}t)`;
             elements.confirmDialog.classList.remove('hidden');
             setTimeout(() => elements.confirmDialog.querySelector('.confirmation-dialog').classList.remove('scale-90', 'opacity-0'), 10);
         });
 
-        // 7. Confirmar Limpieza
+        // 8. Confirmar Limpieza
         elements.confirmDelete.addEventListener('click', () => {
             toggleLoading(true);
             setTimeout(() => {
@@ -946,14 +1021,14 @@
             }, 800);
         });
 
-        // 8. Cancelar Limpieza
+        // 9. Cancelar Limpieza
         elements.confirmCancel.addEventListener('click', () => {
             elements.confirmDialog.querySelector('.confirmation-dialog').classList.add('scale-90', 'opacity-0');
             setTimeout(() => elements.confirmDialog.classList.add('hidden'), 300);
         });
 
 
-        // 9. Exportar a PDF 
+        // 10. Exportar a PDF (Verificada)
         elements.exportBtn.addEventListener('click', () => {
             if (records.length === 0) {
                 showToast('No hay datos para exportar.', 'info');
@@ -963,41 +1038,47 @@
             toggleLoading(true);
             
             setTimeout(() => {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF('p', 'mm', 'a4');
-                let y = 20; 
+                try {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF('p', 'mm', 'a4');
+                    let y = 20; 
 
-                doc.setFontSize(22);
-                doc.setFont('Helvetica', 'Bold');
-                doc.setTextColor(13, 38, 61); // Deep Navy
-                doc.text("Milan COMPANY - Reporte de Logística", 10, y);
-                y += 10;
+                    doc.setFontSize(22);
+                    doc.setFont('Helvetica', 'Bold');
+                    doc.setTextColor(13, 38, 61); // Deep Navy
+                    doc.text("Milan COMPANY - Reporte de Logística", 10, y);
+                    y += 10;
 
-                doc.setFontSize(10);
-                doc.setFont('Helvetica', 'Normal');
-                doc.setTextColor(55, 65, 81); // Gray-700
-                doc.text(`Total Registros: `, 10, y);
-                doc.text(`Tonelaje Acumulado:  t`, 60, y);
-                doc.text(`Total Destinos: `, 120, y);
-                y += 10;
-                
-                const headers = [['Fecha', 'Origen', 'Destino', 'Tonelaje (t)']];
-                const data = records.map(r => [r.date, r.location, r.destination, r.tonnage]);
+                    doc.setFontSize(10);
+                    doc.setFont('Helvetica', 'Normal');
+                    doc.setTextColor(55, 65, 81); // Gray-700
+                    doc.text(`Total Registros: ${records.length}`, 10, y);
+                    doc.text(`Tonelaje Acumulado: ${elements.statTonnage.textContent} t`, 60, y);
+                    doc.text(`Total Destinos: ${elements.statDestinations.textContent}`, 120, y);
+                    y += 10;
+                    
+                    const headers = [['Fecha', 'Origen', 'Destino', 'Tonelaje (t)']];
+                    // Formatear la fecha para el reporte
+                    const data = records.map(r => [formatDate(r.date), r.location, r.destination, r.tonnage]);
 
-                // Uso de jspdf-autotable para crear la tabla
-                doc.autoTable({
-                    startY: y,
-                    head: headers,
-                    body: data,
-                    styles: { fontSize: 9, cellPadding: 3, halign: 'left', minCellHeight: 8 },
-                    headStyles: { fillColor: [13, 38, 61], textColor: [255, 255, 255], fontStyle: 'bold' }, // Deep Navy Header
-                    alternateRowStyles: { fillColor: [248, 248, 248] }, 
-                    theme: 'grid'
-                });
+                    doc.autoTable({
+                        startY: y,
+                        head: headers,
+                        body: data,
+                        styles: { fontSize: 9, cellPadding: 3, halign: 'left', minCellHeight: 8 },
+                        headStyles: { fillColor: [13, 38, 61], textColor: [255, 255, 255], fontStyle: 'bold' }, 
+                        alternateRowStyles: { fillColor: [248, 248, 248] }, 
+                        theme: 'grid'
+                    });
 
-                doc.save(`Milan_Logistica_Reporte_.pdf`);
-                showToast('Reporte exportado como PDF.', 'success');
-                toggleLoading(false);
+                    doc.save(`Milan_Logistica_Reporte_${new Date().toISOString().substring(0, 10)}.pdf`);
+                    showToast('Reporte exportado como PDF.', 'success');
+                } catch (error) {
+                    console.error("Error al exportar PDF:", error);
+                    showToast('Error al generar el PDF. Inténtalo de nuevo.', 'error');
+                } finally {
+                    toggleLoading(false);
+                }
             }, 1200);
         });
 
@@ -1007,4 +1088,3 @@
     </script>
 </body>
 </html>
-
