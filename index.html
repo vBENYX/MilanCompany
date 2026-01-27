@@ -4,234 +4,256 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Eleven | Café & Drinks</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <style>
         :root {
-            --apple-bg: #000000;
-            --apple-silver: #a1a1a6;
-            --gold-viva: #d4af37;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --apple-bg: #000;
+            --apple-gray: #1d1d1f;
+            --text-secondary: #86868b;
+            --gold-subtle: #d4af37;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         body {
             background-color: var(--apple-bg);
             color: #fff;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             overflow-x: hidden;
         }
 
-        /* --- HERO CORREGIDO --- */
+        /* --- FONDO CON BLUR DINÁMICO --- */
+        #bg-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            z-index: -1; will-change: filter, transform;
+        }
+        .bg-img {
+            position: absolute; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            opacity: 0.5; transition: opacity 2s ease, background-image 2s ease;
+        }
+
+        /* --- HERO SECTION --- */
         .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            text-align: center;
-            overflow: hidden;
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            padding: 0 20px;
         }
 
-        .hero-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.9)), 
-                              url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2000&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            z-index: 1; /* Al fondo */
-            animation: panEffect 30s infinite alternate;
-        }
-
-        @keyframes panEffect { from { transform: scale(1); } to { transform: scale(1.1); } }
-
-        /* Contenedor de contenido sobre el fondo */
-        .hero-content {
-            position: relative;
-            z-index: 10; /* Siempre visible sobre el fondo */
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .logo-viva h1 {
+            font-weight: 900; font-size: clamp(5rem, 25vw, 14rem);
+            letter-spacing: -0.07em; line-height: 0.8;
+            background: linear-gradient(180deg, #fff 30%, #555 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         .status-badge {
-            margin-bottom: 30px;
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-transform: uppercase;
+            font-size: 0.75rem; font-weight: 700; letter-spacing: 2px;
+            padding: 10px 20px; border-radius: 100px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 2rem; display: flex; align-items: center; gap: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .dot { width: 7px; height: 7px; border-radius: 50%; }
+
+        #typewriter {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: #fff;
+            margin-top: 25px;
+            font-weight: 500;
+            min-height: 1.6em;
+            max-width: 600px;
+            line-height: 1.4;
         }
 
-        .dot { width: 8px; height: 8px; border-radius: 50%; }
-
-        /* LOGO CON Z-INDEX ASEGURADO */
-        .logo-viva h1 {
-            font-weight: 900; 
-            font-size: clamp(4.5rem, 18vw, 12rem);
-            letter-spacing: -0.07em; 
-            line-height: 0.8;
-            margin: 0;
-            background: linear-gradient(180deg, #ffffff 40%, #777 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+        /* --- SECCIÓN DESCRIPCIÓN --- */
+        .section {
+            padding: 140px 24px; max-width: 1000px; margin: 0 auto; text-align: center;
+            position: relative; z-index: 10;
         }
 
-        .invitation-box { margin-top: 25px; min-height: 80px; padding: 0 20px; }
-        .invitation-text {
-            font-weight: 700;
-            font-size: clamp(1.5rem, 4.5vw, 3.2rem);
-            letter-spacing: -0.04em;
-            color: var(--gold-viva);
-            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        .tagline {
+            color: var(--gold-subtle); font-size: 0.9rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 5px; margin-bottom: 25px;
         }
 
-        /* --- SECCIONES SECUNDARIAS --- */
-        .presentation { padding: 120px 24px; max-width: 1000px; margin: 0 auto; text-align: center; }
-        .presentation h2 { font-weight: 800; font-size: clamp(2.5rem, 8vw, 5rem); letter-spacing: -0.05em; margin-bottom: 30px; line-height: 1; }
-        .presentation p { font-size: clamp(1.1rem, 3vw, 1.7rem); color: var(--apple-silver); font-weight: 300; line-height: 1.4; }
-
-        .reviews { padding: 60px 24px; background: #000; }
-        .review-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; }
-        .review-card { background: var(--glass); border: 1px solid var(--glass-border); padding: 40px; border-radius: 30px; }
-        .review-card p { font-size: 1.1rem; line-height: 1.5; color: #fff; font-style: italic; margin-bottom: 20px; font-weight: 300; }
-        .review-card span { font-weight: 700; color: var(--gold-viva); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; }
-
-        .cta-container { text-align: center; padding: 100px 0; }
-        .btn-apple-main { padding: 22px 60px; background: #fff; color: #000; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 1.1rem; transition: 0.3s ease; display: inline-block; }
-        .btn-apple-main:hover { transform: scale(1.05); }
-
-        /* WHATSAPP (Número: 631 864 231) */
-        .wa-float { 
-            position: fixed; bottom: 30px; right: 30px; 
-            width: 65px; height: 65px; 
-            background: rgba(37, 211, 102, 0.2); 
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border-radius: 50%; display: flex; justify-content: center; align-items: center; 
-            z-index: 1000; border: 1px solid rgba(37, 211, 102, 0.4); transition: 0.3s;
+        .headline {
+            font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800;
+            letter-spacing: -0.05em; line-height: 1.05; margin-bottom: 45px;
         }
-        .wa-float:hover { background: #25d366; transform: scale(1.1); }
-        .wa-float svg { width: 32px; height: 32px; fill: white; }
 
-        footer { padding: 60px; text-align: center; color: #333; font-size: 0.7rem; letter-spacing: 4px; font-weight: 800; }
+        .description {
+            font-size: clamp(1.2rem, 3vw, 1.8rem); color: var(--text-secondary);
+            font-weight: 500; line-height: 1.5; max-width: 850px; margin: 0 auto;
+        }
+
+        /* --- GRID DE RESEÑAS --- */
+        .grid-reviews {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px; padding: 40px 24px 100px; max-width: 1200px; margin: 0 auto;
+            position: relative; z-index: 10;
+        }
+
+        .apple-card {
+            background: var(--apple-gray); padding: 50px 40px; border-radius: 34px;
+            text-align: left; transition: transform 0.5s cubic-bezier(0,0,0.2,1);
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+        .apple-card:hover { transform: scale(1.03); border-color: rgba(212, 175, 55, 0.2); }
+        .apple-card p { font-size: 1.3rem; font-weight: 500; margin-bottom: 25px; line-height: 1.6; color: #f5f5f7; }
+        .apple-card b { color: var(--gold-subtle); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; }
+
+        /* --- BOTONES Y FOOTER --- */
+        .wa-widget {
+            position: fixed; bottom: 30px; right: 30px; z-index: 1000;
+            background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1);
+            padding: 16px 30px; border-radius: 100px; text-decoration: none;
+            display: flex; align-items: center; gap: 12px; transition: 0.4s;
+        }
+        .wa-widget:hover { background: rgba(255,255,255,0.15); transform: translateY(-5px); }
+        .wa-widget span { color: #fff; font-weight: 700; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; }
+
+        .btn-maps {
+            margin-top: 40px; padding: 24px 65px; background: #fff; color: #000;
+            text-decoration: none; border-radius: 100px; font-weight: 700;
+            display: inline-block; transition: 0.4s; font-size: 1.05rem;
+        }
+        .btn-maps:hover { background: var(--gold-subtle); color: #fff; transform: scale(1.05); }
+
+        footer { padding: 100px 24px; text-align: center; color: #333; font-size: 0.7rem; letter-spacing: 6px; font-weight: 900; text-transform: uppercase; }
+
+        @media (max-width: 768px) {
+            .section { padding: 80px 24px; }
+            .apple-card { padding: 40px 30px; }
+        }
     </style>
 </head>
 <body>
 
+    <div id="bg-container">
+        <div id="bg" class="bg-img"></div>
+    </div>
+
     <section class="hero">
-        <div class="hero-bg"></div>
-        
-        <div class="hero-content">
-            <div class="status-badge" data-aos="fade-down">
-                <div class="dot" id="status-dot"></div>
-                <span id="status-text">Cargando...</span>
-            </div>
-
-            <div class="logo-viva" data-aos="zoom-out" data-aos-duration="2000">
-                <h1>Eleven.</h1>
-            </div>
-
-            <div class="invitation-box">
-                <p class="invitation-text" id="typewriter"></p>
-            </div>
+        <div class="status-badge" data-aos="fade-down">
+            <div class="dot" id="dot"></div>
+            <span id="status-text">Eleven Andorra</span>
         </div>
-    </section>
-
-    <section class="presentation" data-aos="fade-up">
-        <h2>La esencia del momento.</h2>
-        <p>En Eleven, cada grano de café y cada gota de cristal cuentan una historia. Ubicados en el corazón de Andorra, transformamos el día en energía y la noche en puro espíritu.</p>
-    </section>
-
-    <section class="reviews">
-        <div class="review-grid">
-            <div class="review-card" data-aos="fade-up">
-                <p>"La atmósfera es increíble. El café de la mañana me da la vida y los cócteles de noche son simplemente los mejores."</p>
-                <span>— Marc S.</span>
-            </div>
-            <div class="review-card" data-aos="fade-up" data-aos-delay="100">
-                <p>"Un sitio con mucha clase. Minimalista pero acogedor. Definitivamente mi lugar favorito de Andorra."</p>
-                <span>— Elena R.</span>
-            </div>
-            <div class="review-card" data-aos="fade-up" data-aos-delay="200">
-                <p>"Atención impecable y productos de primera. Se nota que cuidan cada detalle."</p>
-                <span>— Jordi P.</span>
-            </div>
+        <div class="logo-viva" data-aos="zoom-out" data-aos-duration="1500">
+            <h1>Eleven.</h1>
         </div>
+        <p id="typewriter"></p>
     </section>
 
-    <section class="cta-container" data-aos="zoom-in">
-        <a href="https://www.google.com/maps/search/?api=1&query=Eleven+Andorra" target="_blank" class="btn-apple-main">VEN A VERNOS</a>
+    <section class="section">
+        <p class="tagline" data-aos="fade-up">Concept Bar</p>
+        <h2 class="headline" data-aos="fade-up">Del café de especialidad a la coctelería de autor.</h2>
+        <p class="description" data-aos="fade-up">En el corazón de Andorra, Eleven es el punto de encuentro para quienes buscan lo extraordinario. Minimalismo, precisión y alma en cada detalle.</p>
     </section>
 
-    <a href="https://wa.me/34631864231" class="wa-float" target="_blank">
-        <svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.7 17.7 69.5 27 106.2 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.1-3.2-5.5-.3-8.5 2.5-11.2 2.5-2.5 5.5-6.5 8.3-9.7 2.8-3.3 3.7-5.5 5.5-9.3 1.9-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.5 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+    <div class="grid-reviews">
+        <div class="apple-card" data-aos="fade-up">
+            <p>"La sofisticación hecha lugar. El mejor ambiente de la ciudad para conectar, reír y disfrutar."</p>
+            <b>— MARC S.</b>
+        </div>
+        <div class="apple-card" data-aos="fade-up" data-aos-delay="150">
+            <p>"Simplemente impecable. Una experiencia sensorial que te hace volver una y otra vez."</p>
+            <b>— ELENA R.</b>
+        </div>
+    </div>
+
+    <div style="text-align: center; padding-bottom: 120px;">
+        <a href="https://www.google.com/maps/place/Bar+Cafeter%C3%ADa+Eleven/@40.9770834,-0.4467765,17z/data=!3m1!4b1!4m6!3m5!1s0xd3f3d5f592b6a83:0x391bf237e3e5558e!8m2!3d40.9770834!4d-0.4467765!16s%2Fg%2F11b6_c_0v2?entry=ttu" target="_blank" class="btn-maps" data-aos="zoom-in">CÓMO LLEGAR</a>
+    </div>
+
+    <a href="https://wa.me/34631864231" class="wa-widget">
+        <svg width="18" viewBox="0 0 448 512" fill="white"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.7 17.7 69.5 27 106.2 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6z"/></svg>
+        <span>CONECTAR</span>
     </a>
 
-    <footer>ELEVEN ANDORRA · 2026</footer>
+    <footer>ELEVEN · ANDORRA · 2026</footer>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 1000, once: true });
 
-        function updateEleven() {
-            const now = new Date();
-            const hour = now.getHours();
-            const day = now.getDay();
-            const min = now.getMinutes();
-            const totalMin = (hour * 60) + min;
+        window.onscroll = () => {
+            let blurValue = Math.min(window.scrollY / 45, 18);
+            document.getElementById('bg-container').style.filter = `blur(px)`;
+        };
 
-            const isLateDay = (day === 5 || day === 6 || day === 0);
-            let open = false;
-
-            if (totalMin >= 540) { // 9 AM
-                if (isLateDay || totalMin < 1380) open = true;
-            } else if (totalMin < 120) { // 2 AM
-                const yest = day === 0 ? 6 : day - 1;
-                if ([5,6,0].includes(yest)) open = true;
-            }
-
-            const statusText = document.getElementById('status-text');
-            const statusDot = document.getElementById('status-dot');
-            statusText.innerText = open ? "ABIERTO AHORA" : "CERRADO AHORA";
-            statusDot.style.background = open ? "#32d74b" : "#ff453a";
-            statusDot.style.boxShadow = open ? "0 0 15px #32d74b" : "0 0 15px #ff453a";
-
-            let msgs = [];
-            if (hour >= 9 && hour < 14) {
-                msgs = ["¿Te pongo lo de siempre?", "Huele a café recién hecho.", "Tu ritual empieza aquí."];
-            } else if (hour >= 14 && hour < 19) {
-                msgs = ["Es hora de una pausa.", "Tardes con alma de Eleven.", "Cambia el ritmo. Ven a vernos."];
-            } else {
-                msgs = ["La barra está lista.", "Brindemos por la noche.", "¿Te vienes a por una copa?"];
-            }
-            return msgs;
+        function getMessages() {
+            const h = new Date().getHours();
+            if (h >= 6 && h < 12) return [
+                "El primer ritual del día.",
+                "Grandes ideas nacen con buen café.",
+                "Tu mejor versión empieza aquí.",
+                "Café de especialidad, alma de Andorra.",
+                "Despierta tus sentidos.",
+                "Menos rutina, más inspiración."
+            ];
+            if (h >= 12 && h < 18) return [
+                "La pausa que lo cambia todo.",
+                "Donde los desconocidos se vuelven amigos.",
+                "Tu refugio en el corazón de la ciudad.",
+                "Crea momentos, nosotros ponemos el sabor.",
+                "Andorra sabe mejor en Eleven.",
+                "Ven a reír, ven a conectar."
+            ];
+            if (h >= 18 && h < 23) return [
+                "Donde la noche cobra vida.",
+                "Menos estrés, más coctelería de autor.",
+                "Ven a brindar por lo que importa.",
+                "La vida es corta, pide otro cóctel.",
+                "El lugar donde las mejores historias comienzan.",
+                "Brindemos por las noches que no tienen fin."
+            ];
+            return [
+                "Luz tenue, grandes copas.",
+                "El secreto mejor guardado de la noche.",
+                "Música, vibras y Eleven.",
+                "Donde el tiempo se detiene.",
+                "Sofisticación en cada sorbo."
+            ];
         }
 
-        const activeMsgs = updateEleven();
-        let i = 0, j = 0, isDel = false;
+        function updateUI() {
+            const h = new Date().getHours();
+            const open = (h >= 9 && h < 23);
+            const isNight = (h >= 18 || h < 6);
+            
+            document.getElementById('bg').style.backgroundImage = isNight 
+                ? "url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=2000')"
+                : "url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=2000')";
+            
+            document.getElementById('dot').style.background = open ? "#32d74b" : "#ff453a";
+            document.getElementById('dot').style.boxShadow = `0 0 12px  "#ff453a"`;
+            document.getElementById('status-text').innerText = open ? "Abierto ahora" : "Cerrado ahora";
+        }
+
+        let msgIdx = 0, charIdx = 0, isDeleting = false;
         function type() {
-            let cur = activeMsgs[i];
-            let txt = isDel ? cur.substring(0, j-1) : cur.substring(0, j+1);
-            document.getElementById("typewriter").textContent = txt;
-            j = isDel ? j-1 : j+1;
-            if (!isDel && j === cur.length) setTimeout(() => isDel = true, 3000);
-            else if (isDel && j === 0) { isDel = false; i = (i + 1) % activeMsgs.length; }
-            setTimeout(type, isDel ? 30 : 80);
+            const msgs = getMessages();
+            const current = msgs[msgIdx];
+            const el = document.getElementById("typewriter");
+            
+            el.textContent = isDeleting 
+                ? current.substring(0, charIdx--) 
+                : current.substring(0, charIdx++);
+
+            if (!isDeleting && charIdx > current.length) {
+                setTimeout(() => isDeleting = true, 2800);
+            } else if (isDeleting && charIdx < 0) {
+                isDeleting = false;
+                charIdx = 0;
+                msgIdx = (msgIdx + 1) % msgs.length;
+            }
+            setTimeout(type, isDeleting ? 35 : 70);
         }
+
+        updateUI();
         type();
     </script>
 </body>
