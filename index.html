@@ -4,271 +4,235 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Eleven | Café & Drinks</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300&family=Inter:wght@200;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <style>
         :root {
-            --apple-dark: #0a0a0b;
-            --gold: #d4af37;
-            --glass: rgba(255, 255, 255, 0.03);
+            --apple-bg: #000000;
+            --apple-silver: #a1a1a6;
+            --gold-viva: #d4af37;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        * { 
-            margin: 0; padding: 0; box-sizing: border-box; 
-            -webkit-font-smoothing: antialiased;
-            touch-action: manipulation;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
 
         body {
-            background-color: var(--apple-dark);
+            background-color: var(--apple-bg);
             color: #fff;
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
 
-        /* HERO & PARTICLES */
+        /* --- HERO CORREGIDO --- */
         .hero {
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             position: relative;
+            text-align: center;
             overflow: hidden;
         }
 
         .hero-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.9)), 
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.9)), 
                               url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2000&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
+            z-index: 1; /* Al fondo */
             animation: panEffect 30s infinite alternate;
         }
 
-        @keyframes panEffect {
-            from { transform: scale(1.1) translateX(-1%); }
-            to { transform: scale(1.2) translateX(1%); }
-        }
+        @keyframes panEffect { from { transform: scale(1); } to { transform: scale(1.1); } }
 
-        .particles {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(212, 175, 55, 0.2);
-            border-radius: 50%;
-            animation: floatUp 20s infinite linear;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(110vh) scale(0); opacity: 0; }
-            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
-        }
-
-        .logo-viva h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(3.5rem, 15vw, 10rem);
-            font-weight: 300;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            z-index: 10;
+        /* Contenedor de contenido sobre el fondo */
+        .hero-content {
             position: relative;
-            background: linear-gradient(90deg, #fff, var(--gold), #fff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 8s linear infinite;
-        }
-
-        @keyframes shine { to { background-position: 200% center; } }
-
-        /* RESEÑAS DINÁMICAS (APPLE STYLE) */
-        .reviews-container {
-            padding: 100px 20px;
-            text-align: center;
-            min-height: 300px;
+            z-index: 10; /* Siempre visible sobre el fondo */
+            width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            background: linear-gradient(to bottom, transparent, var(--apple-dark));
+            align-items: center;
         }
 
-        .review-track {
-            position: relative;
-            max-width: 800px;
-            margin: auto;
-        }
-
-        .review-item {
-            display: none;
-            animation: fadeReview 1.5s forwards;
-        }
-
-        .review-item.active { display: block; }
-
-        @keyframes fadeReview {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .review-text {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(1.4rem, 4vw, 2.2rem);
-            font-style: italic;
-            color: #eee;
-            margin-bottom: 20px;
-        }
-
-        .review-author {
+        .status-badge {
+            margin-bottom: 30px;
+            padding: 8px 18px;
+            border-radius: 30px;
             font-size: 0.7rem;
-            letter-spacing: 4px;
-            color: var(--gold);
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
             text-transform: uppercase;
         }
 
-        /* GRID CARTA */
-        .grid-carta {
-            max-width: 1100px;
-            margin: 50px auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
-            padding: 20px;
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+        /* LOGO CON Z-INDEX ASEGURADO */
+        .logo-viva h1 {
+            font-weight: 900; 
+            font-size: clamp(4.5rem, 18vw, 12rem);
+            letter-spacing: -0.07em; 
+            line-height: 0.8;
+            margin: 0;
+            background: linear-gradient(180deg, #ffffff 40%, #777 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
         }
 
-        .glass-panel {
-            background: var(--glass);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 40px;
-            padding: 60px 40px;
-            transition: 0.5s;
+        .invitation-box { margin-top: 25px; min-height: 80px; padding: 0 20px; }
+        .invitation-text {
+            font-weight: 700;
+            font-size: clamp(1.5rem, 4.5vw, 3.2rem);
+            letter-spacing: -0.04em;
+            color: var(--gold-viva);
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        .glass-panel:hover { border-color: var(--gold); transform: translateY(-5px); }
+        /* --- SECCIONES SECUNDARIAS --- */
+        .presentation { padding: 120px 24px; max-width: 1000px; margin: 0 auto; text-align: center; }
+        .presentation h2 { font-weight: 800; font-size: clamp(2.5rem, 8vw, 5rem); letter-spacing: -0.05em; margin-bottom: 30px; line-height: 1; }
+        .presentation p { font-size: clamp(1.1rem, 3vw, 1.7rem); color: var(--apple-silver); font-weight: 300; line-height: 1.4; }
 
-        .categoria-label {
-            font-size: 0.65rem;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 40px;
-            display: block;
+        .reviews { padding: 60px 24px; background: #000; }
+        .review-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; }
+        .review-card { background: var(--glass); border: 1px solid var(--glass-border); padding: 40px; border-radius: 30px; }
+        .review-card p { font-size: 1.1rem; line-height: 1.5; color: #fff; font-style: italic; margin-bottom: 20px; font-weight: 300; }
+        .review-card span { font-weight: 700; color: var(--gold-viva); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; }
+
+        .cta-container { text-align: center; padding: 100px 0; }
+        .btn-apple-main { padding: 22px 60px; background: #fff; color: #000; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 1.1rem; transition: 0.3s ease; display: inline-block; }
+        .btn-apple-main:hover { transform: scale(1.05); }
+
+        /* WHATSAPP (Número: 631 864 231) */
+        .wa-float { 
+            position: fixed; bottom: 30px; right: 30px; 
+            width: 65px; height: 65px; 
+            background: rgba(37, 211, 102, 0.2); 
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center; 
+            z-index: 1000; border: 1px solid rgba(37, 211, 102, 0.4); transition: 0.3s;
         }
+        .wa-float:hover { background: #25d366; transform: scale(1.1); }
+        .wa-float svg { width: 32px; height: 32px; fill: white; }
 
-        .item h4 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; margin-bottom: 5px; }
-        .item p { font-size: 0.7rem; letter-spacing: 2px; opacity: 0.4; text-transform: uppercase; margin-bottom: 30px;}
-
-        /* FOOTER */
-        .footer-apple { text-align: center; padding: 100px 20px; }
-        .btn-ios {
-            display: inline-block;
-            padding: 20px 60px;
-            background: #fff;
-            color: #000;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: 0.4s;
-        }
-        .btn-ios:hover { background: var(--gold); color: #fff; transform: scale(1.05); }
-
-        .wa-ios { position: fixed; bottom: 30px; right: 30px; z-index: 1000; mix-blend-mode: difference; }
-        .wa-ios svg { width: 30px; fill: white; }
+        footer { padding: 60px; text-align: center; color: #333; font-size: 0.7rem; letter-spacing: 4px; font-weight: 800; }
     </style>
 </head>
 <body>
 
     <section class="hero">
         <div class="hero-bg"></div>
-        <div class="particles" id="particles"></div>
-        <div class="logo-viva">
-            <h1 data-aos="zoom-in">ELEVEN</h1>
-            <p style="letter-spacing: 12px; font-size: 0.7rem; opacity: 0.5; text-align: center; margin-top: 10px;">ANDORRA</p>
-        </div>
-    </section>
+        
+        <div class="hero-content">
+            <div class="status-badge" data-aos="fade-down">
+                <div class="dot" id="status-dot"></div>
+                <span id="status-text">Cargando...</span>
+            </div>
 
-    <section class="reviews-container">
-        <div class="review-track" id="review-track">
-            <div class="review-item active">
-                <p class="review-text">"El mejor espresso para empezar el día y el mejor cocktail para terminarlo."</p>
-                <p class="review-author">— Marc J.</p>
+            <div class="logo-viva" data-aos="zoom-out" data-aos-duration="2000">
+                <h1>Eleven.</h1>
             </div>
-            <div class="review-item">
-                <p class="review-text">"Un refugio de elegancia en el corazón de Andorra. Servicio impecable."</p>
-                <p class="review-author">— Elena R.</p>
-            </div>
-            <div class="review-item">
-                <p class="review-text">"La atmósfera Glassmorphism de la noche es simplemente mágica."</p>
-                <p class="review-author">— David L.</p>
+
+            <div class="invitation-box">
+                <p class="invitation-text" id="typewriter"></p>
             </div>
         </div>
     </section>
 
-    <div class="grid-carta">
-        <div class="glass-panel" data-aos="fade-up">
-            <span class="categoria-label">Daylight</span>
-            <div class="item">
-                <h4>Café de Finca</h4>
-                <p>Notas de chocolate & tueste natural</p>
-            </div>
-            <div class="item">
-                <h4>Brunch Bites</h4>
-                <p>Selección de repostería artesana</p>
-            </div>
-        </div>
-
-        <div class="glass-panel" data-aos="fade-up" data-aos-delay="200">
-            <span class="categoria-label">Afterdark</span>
-            <div class="item">
-                <h4>Signature Mix</h4>
-                <p>Coctelería de autor & vanguardia</p>
-            </div>
-            <div class="item">
-                <h4>Vintage Spirits</h4>
-                <p>Destilados seleccionados</p>
-            </div>
-        </div>
-    </div>
-
-    <section class="footer-apple">
-        <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; margin-bottom: 40px;">C. Ramón y Cajal, 3 · Andorra</p>
-        <a href="https://www.google.com/maps/dir//Bar+Cafeter%C3%ADa+Eleven,+C.+Ram%C3%B3n+y+Cajal,+3,+44500+Andorra,+Teruel/" target="_blank" class="btn-ios">CÓMO LLEGAR</a>
+    <section class="presentation" data-aos="fade-up">
+        <h2>La esencia del momento.</h2>
+        <p>En Eleven, cada grano de café y cada gota de cristal cuentan una historia. Ubicados en el corazón de Andorra, transformamos el día en energía y la noche en puro espíritu.</p>
     </section>
 
-    <a href="https://wa.me/34978880486" class="wa-ios">
+    <section class="reviews">
+        <div class="review-grid">
+            <div class="review-card" data-aos="fade-up">
+                <p>"La atmósfera es increíble. El café de la mañana me da la vida y los cócteles de noche son simplemente los mejores."</p>
+                <span>— Marc S.</span>
+            </div>
+            <div class="review-card" data-aos="fade-up" data-aos-delay="100">
+                <p>"Un sitio con mucha clase. Minimalista pero acogedor. Definitivamente mi lugar favorito de Andorra."</p>
+                <span>— Elena R.</span>
+            </div>
+            <div class="review-card" data-aos="fade-up" data-aos-delay="200">
+                <p>"Atención impecable y productos de primera. Se nota que cuidan cada detalle."</p>
+                <span>— Jordi P.</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-container" data-aos="zoom-in">
+        <a href="https://www.google.com/maps/search/?api=1&query=Eleven+Andorra" target="_blank" class="btn-apple-main">VEN A VERNOS</a>
+    </section>
+
+    <a href="https://wa.me/34631864231" class="wa-float" target="_blank">
         <svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.7 17.7 69.5 27 106.2 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.1-3.2-5.5-.3-8.5 2.5-11.2 2.5-2.5 5.5-6.5 8.3-9.7 2.8-3.3 3.7-5.5 5.5-9.3 1.9-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.5 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
     </a>
 
+    <footer>ELEVEN ANDORRA · 2026</footer>
+
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1500, once: true });
+        AOS.init({ duration: 1000, once: true });
 
-        // Carrusel de Reseñas
-        let currentReview = 0;
-        const reviews = document.querySelectorAll('.review-item');
-        setInterval(() => {
-            reviews[currentReview].classList.remove('active');
-            currentReview = (currentReview + 1) % reviews.length;
-            reviews[currentReview].classList.add('active');
-        }, 5000);
+        function updateEleven() {
+            const now = new Date();
+            const hour = now.getHours();
+            const day = now.getDay();
+            const min = now.getMinutes();
+            const totalMin = (hour * 60) + min;
 
-        // Partículas
-        const container = document.getElementById('particles');
-        for (let i = 0; i < 20; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            p.style.left = Math.random() * 100 + '%';
-            p.style.width = p.style.height = Math.random() * 3 + 2 + 'px';
-            p.style.animationDelay = Math.random() * 10 + 's';
-            container.appendChild(p);
+            const isLateDay = (day === 5 || day === 6 || day === 0);
+            let open = false;
+
+            if (totalMin >= 540) { // 9 AM
+                if (isLateDay || totalMin < 1380) open = true;
+            } else if (totalMin < 120) { // 2 AM
+                const yest = day === 0 ? 6 : day - 1;
+                if ([5,6,0].includes(yest)) open = true;
+            }
+
+            const statusText = document.getElementById('status-text');
+            const statusDot = document.getElementById('status-dot');
+            statusText.innerText = open ? "ABIERTO AHORA" : "CERRADO AHORA";
+            statusDot.style.background = open ? "#32d74b" : "#ff453a";
+            statusDot.style.boxShadow = open ? "0 0 15px #32d74b" : "0 0 15px #ff453a";
+
+            let msgs = [];
+            if (hour >= 9 && hour < 14) {
+                msgs = ["¿Te pongo lo de siempre?", "Huele a café recién hecho.", "Tu ritual empieza aquí."];
+            } else if (hour >= 14 && hour < 19) {
+                msgs = ["Es hora de una pausa.", "Tardes con alma de Eleven.", "Cambia el ritmo. Ven a vernos."];
+            } else {
+                msgs = ["La barra está lista.", "Brindemos por la noche.", "¿Te vienes a por una copa?"];
+            }
+            return msgs;
         }
+
+        const activeMsgs = updateEleven();
+        let i = 0, j = 0, isDel = false;
+        function type() {
+            let cur = activeMsgs[i];
+            let txt = isDel ? cur.substring(0, j-1) : cur.substring(0, j+1);
+            document.getElementById("typewriter").textContent = txt;
+            j = isDel ? j-1 : j+1;
+            if (!isDel && j === cur.length) setTimeout(() => isDel = true, 3000);
+            else if (isDel && j === 0) { isDel = false; i = (i + 1) % activeMsgs.length; }
+            setTimeout(type, isDel ? 30 : 80);
+        }
+        type();
     </script>
 </body>
+</html>
