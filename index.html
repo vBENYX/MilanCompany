@@ -165,7 +165,7 @@
     </div>
 
     <div style="text-align: center; padding-bottom: 120px;">
-        <a href="https://www.google.com/maps/place/Bar+Cafeter%C3%ADa+Eleven/@40.9770834,-0.4467765,17z/data=!3m1!4b1!4m6!3m5!1s0xd3f3d5f592b6a83:0x391bf237e3e5558e!8m2!3d40.9770834!4d-0.4467765!16s%2Fg%2F11b6_c_0v2?entry=ttu" target="_blank" class="btn-maps" data-aos="zoom-in">CÓMO LLEGAR</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Bar+Cafetería+Eleven&query_place_id=ChIJg2orWV89Xw0RjlXl43fyGzk" target="_blank" class="btn-maps" data-aos="zoom-in">CÓMO LLEGAR</a>
     </div>
 
     <a href="https://wa.me/34631864231" class="wa-widget">
@@ -181,7 +181,7 @@
 
         window.onscroll = () => {
             let blurValue = Math.min(window.scrollY / 45, 18);
-            document.getElementById('bg-container').style.filter = `blur(px)`;
+            document.getElementById('bg-container').style.filter = `blur(${blurValue}px)`;
         };
 
         function getMessages() {
@@ -229,7 +229,7 @@
                 : "url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=2000')";
             
             document.getElementById('dot').style.background = open ? "#32d74b" : "#ff453a";
-            document.getElementById('dot').style.boxShadow = `0 0 12px  "#ff453a"`;
+            document.getElementById('dot').style.boxShadow = `0 0 12px ${open ? "#32d74b" : "#ff453a"}`;
             document.getElementById('status-text').innerText = open ? "Abierto ahora" : "Cerrado ahora";
         }
 
